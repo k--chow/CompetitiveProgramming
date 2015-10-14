@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=stream
+comment0.target=InputReader(java.io.InputStream)
+comment1.params=
+comment1.target=int\ read()
+comment2.params=
+comment2.target=int\ readInt()
+comment3.params=
+comment3.target=java.lang.String\ readString()
+comment4.params=c
+comment4.target=boolean\ isSpaceChar(int)
+comment5.params=
+comment5.target=java.lang.String\ next()
+numComments=6

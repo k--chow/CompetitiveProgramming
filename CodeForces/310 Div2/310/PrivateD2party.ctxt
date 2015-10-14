@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=i
+comment0.target=void\ dfs(int)
+comment1.params=a
+comment1.target=int\ getsz(int[])
+numComments=2

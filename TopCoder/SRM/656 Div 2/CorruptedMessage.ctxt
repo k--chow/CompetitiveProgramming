@@ -1,0 +1,4 @@
+#BlueJ class context
+comment0.params=s\ k
+comment0.target=java.lang.String\ reconstructMessage(java.lang.String,\ int)
+numComments=1
