@@ -27,6 +27,7 @@ int main()
         abe.clear();
         if (k == 0)
         {
+            cout << "Broken" << endl;
             break;
         }
         else
@@ -36,7 +37,7 @@ int main()
                 cin >> i;
                 abe.push_back(i);
             }
-            cout << endl;
+            //cout << endl;
             for(int a=0; a<k-5; a++)
             {
 
