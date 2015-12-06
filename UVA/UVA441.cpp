@@ -19,7 +19,7 @@ int main()
     vector<int> abe;
     //parse
     int i;
-
+    vector<string> ans;
     while (true)
     {
         cin >> k;
@@ -27,7 +27,7 @@ int main()
         abe.clear();
         if (k == 0)
         {
-            cout << "Broken" << endl;
+            //cout << "Broken" << endl;
             break;
         }
         else
@@ -51,7 +51,7 @@ int main()
                             {
                                 for (int f = e+1; f<k; f++)
                                 {
-                                    cout << abe.at(a) << " " << abe.at(b) << " " << abe.at(c) << " " << abe.at(d) << " " << abe.at(e) << " " << abe.at(f) << " " << endl;
+                                    cout <<  abe.at(a) << " " << abe.at(b) << " " << abe.at(c) << " " << abe.at(d) << " " << abe.at(e) << " " << abe.at(f) <<endl << std::flush();
 
                                 }
 
@@ -67,6 +67,7 @@ int main()
 
 
     } //end of while
+    std::flush();
 
     //cout << "?";
     //next_permutation
