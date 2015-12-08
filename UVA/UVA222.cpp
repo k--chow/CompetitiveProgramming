@@ -12,12 +12,14 @@ double cap;
 double mpg;
 double totalDistance;
 double carTravel;
+double initialCost;
+double minCost = 100000;
+double stopsA[stops];
+double prices[stops];
+int stops;
 //total miles the car can = cap * mpg;
-void recurse(double stops[], double prices[], int refer, double distance, double* minCost, double currentCost)
+void recurse(int i)
 {
-
-    for(int i = refer; refer < stops.size(); i++)
-    {
 
         if (totalDistance - distance < carTravel)//do I even need to stop
         {
@@ -46,7 +48,7 @@ void recurse(double stops[], double prices[], int refer, double distance, double
                 //if cost is less than min, keep going and set it
                 if ((cost + currentCost) < minCost)
                 {
-
+                    recurse(stopsA[], prices[], i, distance + (stops[i] - distance), minCost, )
                 }
             }
             else
@@ -62,9 +64,14 @@ void recurse(double stops[], double prices[], int refer, double distance, double
             {
                 double k = currentCost;
                 minCost = k;//doesnt work without pointers
-            }
+            }//dont set minCost to initial cost..
         }
     }
+
+}
+
+void recurse1(int refer)
+{
 
 }
 
@@ -83,17 +90,16 @@ int main()
         else
         {
 
-            double initialCost;
 
-            double minCost = 100000;
-            int stops;
+
+
+
             cin >> cap;
             //cout << cap << endl;
             cin >> mpg;
             cin >> initialCost;
             cin >> stops;
-            double stopsA[stops];
-            double prices[stops];
+
             carTravel = cap * mpg;
             for(int i=0; i<stops; i++)
             {
@@ -104,7 +110,7 @@ int main()
 
             }
 
-                    recurse(stopsA[], prices[], 0, 0, &minCost, initialCost);
+            recurse(0);
 
 
 
