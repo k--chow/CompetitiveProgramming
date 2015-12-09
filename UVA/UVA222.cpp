@@ -13,59 +13,11 @@ double mpg;
 double totalDistance;
 double carTravel;
 double initialCost;
-double minCost = 100000;
+double minCost = 1000000;
 double stopA[60];
 double prices[60];
 int stops;
-//total miles the car can = cap * mpg;
-/*
-void recurse(int i)
-{
-
-        if (totalDistance - distance < carTravel)//do I even need to stop
-        {
-            double nextStop;
-            if (i != (stops.size() - 1))
-            {
-            nextStop = stops[i+1];
-            }
-            else
-            {
-                //can I reach the end?
-                if (distance + carTravel >= totalDistance)//yes
-                {
-                    nextStop = 0;
-                }
-                //if I can't I have to fill up
-                else//no
-                {
-                    nextStop = totalDistance;
-                }
-
-            }
-
-            if ((carTravel/2.0 < (stops[i] - distance) || nextStop - distance > carTravel) && stops[i] - distance <= carTravel)//more than half tank gone, or next station too far
-            {//watch nextStop
-                double cost = prices[i] * stops[i];
-                //if cost is less than min, keep going and set it
-
-            }
-            else
-            {
-                cout << stops[i] << " Ignored2 because not far enough" << distance << endl;
-            }
-        }
-
-        else
-        {
-            cout << stops[i] << " Ignored because reached " << distance << endl;
-            if (currentCost < minCost)
-            {
-                double k = currentCost;
-                minCost = k;//doesnt work without pointers
-            }//dont set minCost to initial cost..
-        }
-}*/
+vector<double> ans;
 
 //check if we can go there from where we are
 bool canStop(int refer1, int refer2)
@@ -89,15 +41,8 @@ bool canStop(int refer1, int refer2)
     return false;
 }
 
-void recurse1(int refer, int cDistance, int cCost)
-{/*
-    for loop 1 to 3
-    check if still needs distance to reach end
-        if end reached - compare cost, return
-    if 1 can stop - add to cCost and cDistance, recurse with 2 and 3 - if 2 can stop - recurse with 3 //1 12 13 123
-    if 2 can stop - recurse with 3 //2 23
-    if 3 can stop - //3
-*/
+void recurse1(int refer, double cDistance, double cCost)
+{
 int d = refer;
 if (refer+1 != stops)
         {
@@ -107,41 +52,44 @@ if (refer+1 != stops)
     for (int i = d; i<stops; i++)
     {
 
-        cout << "cDistance " << cDistance << endl;
+        //cout << "cDistance " << cDistance << endl;
         //cout << "start " << refer << " to " << i+1 << endl;
         if (totalDistance - cDistance <= carTravel) //can reach
         {
-            cout << "reached " << refer << " " << i << endl;
+            //cout << "reached " << refer << " " << i << " cost is " << cCost << endl;
             //cCost += initialCost;
+             //rounding
             if (cCost < minCost)
             {
+                cCost += 0.5;
+                cCost = (int)cCost;
                 minCost = cCost;
-                cout << "minCost changed to " << cCost/100.0 << endl;
+                //cout << "minCost changed to " << cCost << endl;
                 //return;
             }
             else
             {
-                cout << "minCost not changed to " <<cCost/100.0 << endl;
+                //cout << "minCost not changed to " << cCost<< endl;
                 //return;
             }
         }
         else
         {
-            cout << "Try " << refer << " " << i << endl;
+            //cout << "Try " << refer << " " << i << endl;
 
             if (canStop(refer, i))//if can stop from where we are, we must try it
             {
                 double extraDistance = stopA[i] - cDistance;// or cDistance for stopsA[refer]
                 double extraCost = ((extraDistance/mpg)* prices[i]) + 200;
-                cout << "Yes " << refer << " " << i << endl;
-                cout << "Go " << i << " " << cDistance+extraDistance << " " << cCost+extraCost << endl;
+                //cout << "Yes " << refer << " " << i << endl;
+                //cout << "Go " << i << " " << cDistance+extraDistance << " " << cCost+extraCost << endl;
                 recurse1(i, cDistance+extraDistance, cCost+extraCost);//+1 or nah
 
 
             }
             else
             {
-                cout << "No "<< refer << " " << i << endl;
+                //cout << "No "<< refer << " " << i << endl;
             }
 
         }
@@ -156,7 +104,7 @@ int main()
     while (true)
     {
         cin >> totalDistance;
-        //cout << totalDistance << endl;
+
         if (totalDistance == -1)
         {
             break;
@@ -187,9 +135,8 @@ int main()
             }
 
             recurse1(-1, 0, 0);
-
-
-
+            ans.push_back((minCost/100)+initialCost);
+            minCost = 1000000;
 
         }
 
@@ -197,8 +144,11 @@ int main()
 
 
     }
-    cout << "$" <<minCost/100.00 + initialCost << endl;
-    cout << initialCost << endl;
+    for (int i=0; i < ans.size(); i++)
+    {
+        cout << "Data Set #" << i+1 << endl;
+        cout << "  " << "minimum cost = $" << ans.at(i) << endl;
+    }
 
     //cost = line 2 element 3
     //miles car travelss - capacity * mpg
