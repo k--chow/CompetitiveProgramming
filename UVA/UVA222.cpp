@@ -144,6 +144,7 @@ int main()
 
 
     }
+    cout << endl;
     for (int i=0; i < ans.size(); i++)
     {
         cout << "Data Set #" << i+1 << endl;
