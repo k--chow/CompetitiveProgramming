@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
+//max is 12 nCr 6 = 924
 
 int main()
 {

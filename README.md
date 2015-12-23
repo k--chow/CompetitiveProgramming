@@ -1,1 +1,3 @@
-My Competitive programming solutions mainly in Java.
+My Competitive programming solutions in Java/C++. Moved from Java onto C++.
+
+UVA222 - recursive backtracking
