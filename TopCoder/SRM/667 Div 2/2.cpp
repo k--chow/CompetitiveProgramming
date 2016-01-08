@@ -9,48 +9,9 @@
 using namespace std;
 
 
-class PalindromePrime
+int main()
 {
-     public:
-        int count(int L, int R)
-        {
-            int ans = 0;
-            int i=L;
-            if (i == 1) i++;
-               for(; i <=R; i++)
-               {
-                   bool prime = true;
-                   //isPrime
-                   for(int j=2; j<=i/2; j++)
-                   {
-                       if (i%j == 0)//not prime
-                       {
-                           prime = false;
-                           break;
-                       }
-                   }
-
-                   //isPalindrome
-                   if (prime)
-                   {
-                       string a = to_string(i);
-                       bool pal = true;
-                       for(int z=0,x=a.length()-1;z != a.length()-1;z++, x--)
-                       {
-                           if (a[z] != a[x])
-                           {
-                               pal = false;
-                           }
-                       }
-                       if (pal)
-                       {
-                           ans++;
-                           //cout << i;
-                       }
-                   }
-
-               }
-               return ans;
-        }
+     int a = 1 + 2 >> 1;
+     cout << a;
 
 };

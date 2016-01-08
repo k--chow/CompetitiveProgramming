@@ -7,47 +7,51 @@
 #include <string>
 #include <unordered_map>
 using namespace std;
-
-std::unordered_map<string, int> mape;
-
-int sum(string a, string c)
+int m, k, a[510], macx=0;;
+void run()
 {
-    int l = a.length();
-    int thisSum = 0;
-    for (int i=0; i<l; i++)
+    for(int i=1; i<macx; i++)//over entirety
     {
-        thisSum+=abs((int)a[i] - (int)c[i]);
+        int currentBook = 0;
+        for(int j=1; j<k+1; j++)//over each scribe
+        {
+            int currentPages = 0;
+
+            for(int p=currentBook; p<m; p++)//over each book
+            {
+                if (currentPages + a[p] <= i)
+                {
+                    currentPages+=a[p];
+                    currentBook = p+1;
+                }
+                else
+                {
+                currentBook = p;
+                break;
+                }
+            }
+        }
     }
-    mape[c] = thisSum;
-    return thisSum;
 }
+//own solution
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    string a;
-    cin >> a;
-    string b;
-    cin >> b;
-    int totalSum = 0;
-    int aL = a.length();
-    int bL = b.length();
-    int stoppingPoint = bL - aL;
-    for(int i = 0; i <=stoppingPoint; i++)
+    int n;
+    cin >> n;
+
+    for(int i=0; i<n; i++)
     {
-        //int ende = i+ aL;
-        //cout << i << " " << ende << endl;
-        string c = b.substr(i, aL); //substr is length
-        if (mape.count(c) > 0)
+        cin >> m;
+        cin >> k;
+        for(int j=0; j< m; j++)
         {
-            totalSum+=mape[c];
-            //cout << "map used!" << endl;
+            cin >> a[j];
+            macx+=a[j];
         }
-        else
-        {
-        totalSum+= sum(a, c);
-        }
+        //run algorithm
     }
-    cout << totalSum << endl;
+
 }
