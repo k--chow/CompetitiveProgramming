@@ -45,7 +45,7 @@ class PalindromePrime
                        if (pal)
                        {
                            ans++;
-                           cout << i;
+                           //cout << i;
                        }
                    }
 
