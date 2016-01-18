@@ -14,7 +14,7 @@ int main()
         cin >> a;
         if (a == 42)
         {
-            cout << "Found" << endl;
+            //cout << "Found" << endl;
             break;
         }
         else
