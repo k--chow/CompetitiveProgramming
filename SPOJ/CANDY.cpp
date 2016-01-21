@@ -11,11 +11,12 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     vector<int> ans;
-    vector<int> store;
+
     while (1)
     {
         int cases;
         cin >> cases;
+        vector<int> store;
         if (cases == -1)
         {
             break;
