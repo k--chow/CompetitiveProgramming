@@ -6,6 +6,7 @@
 #include <stack>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 using namespace std;
 
 string arrayToString(int a[], int s)
@@ -53,8 +54,8 @@ int main()
         string a, b;
         cin >> a >> b;
         int c[a.length()+1], d[a.length()+1];
-        //memset(c, 0, sizeof(c));
-        //memset(d, 0, sizeof(c));
+        memset(c, 0, sizeof(c));
+        memset(d, 0, sizeof(c));
         while (b.length() != a.length())
         {
             b = "0" + b;
@@ -94,7 +95,7 @@ int main()
         string bn = arrayToString(d, b.length()+1);
         //cout << an << " " << bn << endl;
         int e[a.length()+1];
-        //memset(e, 0, sizeof(e));
+        memset(e, 0, sizeof(e));
         for(int j = a.length(); j>-1; j--)
         {
             //cout << e[j] << endl;
