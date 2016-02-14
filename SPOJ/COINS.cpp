@@ -12,7 +12,7 @@
 using namespace std;
 
 //partial memoization
-std::unordered_map<int, long long> b;
+std::unordered_map<long long, long long> b;
 
 long long int go(int f)
 {
@@ -22,6 +22,7 @@ long long int go(int f)
     }
     else if (b.count(f) == 1)
     {
+        cout << "found" << endl;
         return b[f];
     }
     else if (f/2 + f/3 + f/4 <= f)
@@ -31,7 +32,8 @@ long long int go(int f)
     }
     else
     {
-        int d = go(f/2) + go(f/3) + go(f/4);
+        long long d = go(f/2) + go(f/3) + go(f/4);
+        b[f] = d;
         return d;
     }
 }
@@ -40,10 +42,14 @@ int main()
     long long int a;
 
     vector<long long int> ans;
-    scanf("%lld",&a);
+
+   while(cin >> a)
+   {
+       ans.push_back(go(a));
+   }
 
 
-        ans.push_back(go(a));
+
 
 
 
@@ -57,3 +63,10 @@ int main()
     }
 
 }
+
+//attempt two
+/*
+recurse(int a)
+{
+
+}*/

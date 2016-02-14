@@ -52,6 +52,7 @@ string stringAddition(string a)
         else
         {
             a[i] = j + '0';
+            break;
         }
 
 
@@ -63,10 +64,12 @@ string stringAddition(string a)
 bool isPalindrome(string a)
 {
     string b,c;
-    if (a.length()/2 == 0)
+    if (a.length()%2 == 0)
     {
         b = a.substr(0, a.length()/2);
         c = a.substr(a.length()/2, a.length()/2);
+        //cout << b << endl;
+        //cout << c << endl;
 
     }
     else
@@ -90,10 +93,14 @@ bool isPalindrome(string a)
 
 string closestPalin(string &a)
 {
-    if (isPalindrome(a))
+    if (a.length() == 1)
+    {
+        return a;
+    }
+    if (isPalindrome(a)) //check palindrome
     {
         a = stringAddition(a);
-        cout << a << endl;
+        //cout << a << endl;
     }
     //length is even
     string b, c, ans, mid="";
@@ -120,7 +127,7 @@ string closestPalin(string &a)
     }
     else //reverse b is smaller than c
     {
-    //add one starting from mid odd
+
 
     //even concat
     if (a.length() % 2 == 0)
@@ -147,11 +154,23 @@ string closestPalin(string &a)
 
 int main()
 {
-    string a = "808";
-    string b = "80018";
-    string c = "3004";
-    //a[1] += a[1] - 48 + 11;
-    //cout << closestPalin(b) << endl;
-    //if is palindrome, add one try again
-    cout << closestPalin(c)<< endl;
+    vector<string> ans;
+    int c;
+    cin >> c;
+    for(int i=0; i<c; i++)
+    {
+        string k;
+        cin >> k;
+        ans.push_back(closestPalin(k));
+
+    }
+
+    for(int i=0; i<ans.size(); i++)
+    {
+        cout << ans.at(i);
+        if (i != ans.size()-1)
+        {
+            cout << endl;
+        }
+    }
 }
