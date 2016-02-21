@@ -22,7 +22,7 @@ long long int go(int f)
     }
     else if (b.count(f) == 1)
     {
-        cout << "found" << endl;
+        //cout << "found" << endl;
         return b[f];
     }
     else if (f/2 + f/3 + f/4 <= f)
