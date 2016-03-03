@@ -45,13 +45,7 @@ void bfs(vector<vector<int> > & matrix, vector<int> & visited , int start)
         q.pop_front();
         scounter++;
             //if statement to check if tier/level is completed
-        if (scounter == s)
-            {
-                //reached end of level
-                counter++;
-                scounter = 0;
-                s = q.size();
-            }
+
 
         for(int i=0; i<matrix.at(de).size(); i++) //adj list
         {
@@ -68,6 +62,16 @@ void bfs(vector<vector<int> > & matrix, vector<int> & visited , int start)
 
 
         }
+
+        if (scounter == s)
+            {
+                //reached end of level
+                counter++;
+                scounter = 0;
+                s = q.size();
+                //cout << "NEW LEVEL" << endl;
+            }
+
     }
 
 
@@ -92,9 +96,10 @@ int main()
             int a, b;
             cin >> a >> b;
             matrix.at(a-1).push_back(b);
+            matrix.at(b-1).push_back(a);
         }
+
         /*
-        cout << endl;
         //print out the edges
         for(int j=0; j<n; j++)
         {
@@ -110,6 +115,11 @@ int main()
         cin >> start;
 
         bfs(matrix, visited, start);
+        /*
+        for(int i=0; i<visited.size(); i++)
+        {
+            cout << visited[i] << endl;
+        }*/
         for(int i=0; i<visited.size(); i++)
         {
             if (visited[i] == -1)
