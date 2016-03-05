@@ -148,4 +148,6 @@ int main()
 /*
 Seriously reconsider the indexing: either use the 0 standard and stay with it or go with
 the 1 standard. Don't try to change every index and reference to it.
+
+runtime is O(V+E)
 */
