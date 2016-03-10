@@ -1,3 +1,4 @@
 My Competitive programming solutions in Java/C++. Moved from Java onto C++.
 
-UVA222 - recursive backtracking
+
+3/9/16 - Implemented Dijkstra’s. Test it on different graphs. 
