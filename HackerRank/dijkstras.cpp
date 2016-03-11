@@ -90,6 +90,7 @@ int main()
                 if (c < matrix[a-1][b-1])
                 {
                     matrix[a-1][b-1] = c;
+                    matrix[b-1][a-1] = c;
                 }
             }
             else
