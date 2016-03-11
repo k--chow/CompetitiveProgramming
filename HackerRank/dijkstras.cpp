@@ -11,7 +11,7 @@
 #include <unordered_map>
 using namespace std;
 
-void d(vector< vector<int> > & matrix, vector<int> & visited, vector<int> & dist, int start, int end)
+void d(vector< vector<int> > & matrix, vector<int> & visited, vector<int> & dist, int start)
 {
     visited[start] = 1;
     //traverse through each neighbor and update values
@@ -26,14 +26,7 @@ void d(vector< vector<int> > & matrix, vector<int> & visited, vector<int> & dist
         }
     }
 
-    //if visited[end] is 1 return
-    if (visited[end] == 1)
-    {
-        return;
-    }
-    //else find smallest dist thats unvisited
-    else
-    {
+
         int node, distance = 100000;
         //if 100,000 - return because can't reach, else d again
         for(int i=0; i<dist.size(); i++)
@@ -51,9 +44,9 @@ void d(vector< vector<int> > & matrix, vector<int> & visited, vector<int> & dist
         }
         else
         {
-            d(matrix, visited, dist, node, end);
+            d(matrix, visited, dist, node);
         }
-    }
+
 
 
 
@@ -85,18 +78,21 @@ int main()
         {
             int a,b,c;
             cin >> a >> b >> c;
-            if (matrix[a-1][b-1] != -1)
+            //if matrix is -1, go for it, else -> if c is less than current edge
+            if (matrix[a-1][b-1] == -1) //smaller than already edge
+            {
+                matrix[a-1][b-1] = c;
+                matrix[b-1][a-1] = c;
+            }
+
+            else
             {
                 if (c < matrix[a-1][b-1])
                 {
                     matrix[a-1][b-1] = c;
                     matrix[b-1][a-1] = c;
                 }
-            }
-            else
-            {
-            matrix[a-1][b-1] = c;
-            matrix[b-1][a-1] = c;
+
             }
         }
         int start;
@@ -104,7 +100,7 @@ int main()
         //set dist to 0
         dist[start-1] = 0;
         //enter d with correct start and end
-        d(matrix, visited, dist, start-1, nodes-1);
+        d(matrix, visited, dist, start-1);
         for(int j=0; j<dist.size(); j++)
         {
             if (j != start-1)
