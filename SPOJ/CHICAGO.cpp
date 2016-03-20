@@ -24,7 +24,7 @@ void dijkstra(vector< vector<pair<int, double> > >  list, vector<int>& visited, 
         //if neighborunvisited, and less then replace it
         if (visited[list[start][i].first] == 0)
         {
-            double newPercentage = (dist[start] * list[start][i].second)/100.0;
+            double newPercentage = (dist[start] * list[start][i].second)/100.0000000;
             //cout << "New Percentage: " << newPercentage << endl;
             //if newPercentage is higher than current, replace it
             if (newPercentage > dist[list[start][i].first]) //list[start][i].first is the neighbor
@@ -79,7 +79,7 @@ int main()
         vector<  vector< pair<int, double> > > list(nodes);
         //initialize visited nodes all to 0, since all unvisited
         vector<int> visited(nodes, 0);
-        vector<double> dist(nodes, -1); //set all distances to -1
+        vector<double> dist(nodes, 0); //set all distances to 0%
         //pair<to this node, percentage of not getting caught>
         for(int i=0; i<edges; i++)
         {
@@ -87,8 +87,8 @@ int main()
             double c;
             cin >> a >> b >> c;
             //pair <int, int> edge(b, c);
-            list[a-1].push_back(make_pair(b-1, c));
-            list[b-1].push_back(make_pair(a-1, c));
+            list[a-1].push_back(make_pair(b-1, c/100.0));
+            list[b-1].push_back(make_pair(a-1, c/100.0));
 
         }
 
@@ -105,12 +105,12 @@ int main()
 
 
         //implementation detail
-        dist[0] = 100.0;
+        dist[0] = 1.0;
         //dijkstra 1 to n
         dijkstra(list, visited, dist, 0, nodes-1);
 
          //cout << dist[nodes-1] << " percent" << endl;
-         printf("%.6f percent\n", dist[nodes-1]);
+         printf("%.6f percent\n", dist[nodes-1]*100);
 
         }
 
