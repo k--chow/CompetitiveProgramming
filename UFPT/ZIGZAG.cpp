@@ -61,7 +61,15 @@ int main()
         //have full string
         if ((25 - c) % 2 != 0)
         {
-            ans[ans.length()-1] = 'b';
+            if (ans[ans.length()-1] == 'a')
+            {
+                ans[ans.length()-1] = 'b';
+            }
+            else
+            {
+                ans[ans.length()-1] = 'y';
+            }
+
         }
         int secondChar = 'z' - ((25-c)/2);
         //cout << (char)secondChar << endl;
