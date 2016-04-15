@@ -52,7 +52,25 @@ int main() {
     for(int i=0; i<v.size(); i++)
     {
         //speed this up now!
+
         int largest = 0;
+        /*
+        int lo = 0;
+        int hi = i-1;
+        int mid;
+        while(hi > lo) {
+            mid = (hi+lo)/2;
+            if (v[mid].ending > v[i].start)//overlaps, cut out first half
+            {
+                lo = mid;
+            }
+            else
+            {
+                hi = mid+1;
+                largest = max(largest, dp[mid]);
+            }
+        }*/
+
         for(int j=0; j<i; j++)
         {
             if (dp[j] > largest && v[j].ending <= v[i].start)
