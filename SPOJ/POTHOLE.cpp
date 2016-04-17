@@ -50,7 +50,7 @@ int main() {
     //source +1 all 1
     for(int i=0; i<chambers;i++)
     {
-        if (capacity[0][i] != 0)
+        if (capacity[0][i] > 0)
         {
             capacity[0][i] = 1;
         }
@@ -82,7 +82,7 @@ int main() {
         pred[0] = -1;
         for(int i=0; i<chambers; i++)
         {
-            if (capacity[0][i] != 0) // edge exists
+            if (capacity[0][i] > 0) // edge exists
             {
                 pred[i] = 0;
                 q.push(i);
@@ -100,7 +100,7 @@ int main() {
             //queue up neighbors
             for(int i=0; i<chambers; i++)
             {
-                if (capacity[node][i] != 0 && visited[i] != 1) //edge exists and unvisited
+                if (capacity[node][i] > 0 && visited[i] != 1) //edge exists and unvisited
                 {
                     q.push(i);
 
@@ -162,8 +162,6 @@ int main() {
             capacity[from][to]-=capacity[from][to];//change this to flow
             capacity[to][from]+=capacity[from][to];
             from = to;
-
-
         }
 
         for(int i=0; i<path2.size(); i++)
@@ -173,7 +171,24 @@ int main() {
 
 
         //update graph with this min in mind
+        from = path2[0];
+        for(int i=1; i<path2.size(); i++)
+        {
+            to = path2[i];
+            capacity[from][to]+=m;
+            capacity[to][from]-=m;
+            from = to;
+        }
 
+        for (int i=0; i<chambers;i++)
+        {
+        for(int j=0; j<chambers; j++)
+        {
+            cout << capacity[i][j] << " ";
+        }
+        cout << endl;
+
+        }
 
         //path not found so exit
         if (visited[chambers-1] == 1)
