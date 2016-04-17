@@ -20,6 +20,7 @@ int main() {
     int chambers;
     cin >> chambers;
     int capacity[chambers][chambers];
+    int flow [chambers][chambers]; //keeps track of actual flow
 
 
     for (int i=0; i<chambers;i++)
@@ -27,6 +28,7 @@ int main() {
         for(int j=0; j<chambers; j++)
         {
             capacity[i][j] = 0;
+            flow[i][j] = 0;
         }
 
     }
@@ -55,7 +57,7 @@ int main() {
             capacity[0][i] = 1;
         }
     }
-
+    /*
     for (int i=0; i<chambers;i++)
     {
         for(int j=0; j<chambers; j++)
@@ -64,16 +66,16 @@ int main() {
         }
         cout << endl;
 
-    }
+    }*/
 
 
-
+    int max_flow = 0;
     while (true)
     {
 
         //bfs find path to residual graph
         stack<int> path; //keeps track of path
-        queue<int> q;
+        queue<int> q; //queue for path also
         vector<int> pred(chambers, -1);
         vector<int> visited(chambers, 0);
         //implement first neighbors
@@ -82,11 +84,18 @@ int main() {
         pred[0] = -1;
         for(int i=0; i<chambers; i++)
         {
-            if (capacity[0][i] > 0) // edge exists
-            {
-                pred[i] = 0;
-                q.push(i);
-            }
+            if ((capacity[0][i] - flow[0][i]) > 0 || flow[i][0] > 0) //edge exists and unvisited
+                {
+                    if (visited[i] != 1)// go if unvisited
+                    {
+                        q.push(i);
+                        //store predecessor
+                        pred[i] = 0;
+
+                    }
+
+
+                }
         }
 
         while(!q.empty())
@@ -100,12 +109,17 @@ int main() {
             //queue up neighbors
             for(int i=0; i<chambers; i++)
             {
-                if (capacity[node][i] > 0 && visited[i] != 1) //edge exists and unvisited
+                if ((capacity[node][i] - flow[node][i]) > 0 || flow[i][node] > 0) //edge exists and unvisited
                 {
-                    q.push(i);
+                    if (visited[i] != 1)
+                    {
+                        q.push(i);
 
                     //store predecessor
                     pred[i] = node;
+
+                    }
+
 
                 }
             }
@@ -117,13 +131,14 @@ int main() {
                 break;
             }
         }
-        /*
-        for(int i=0; i<chambers; i++)
-        {
-                cout << pred[i]+1 <<endl;
-        }*/
 
-        //get the path in reverse
+        //path not found so exit, max flow is completed
+        if (visited[chambers-1] == 0)
+        {
+            break;
+        }
+
+        //get the path in reverse, maybe wrong?
         path.push(chambers-1);
         int curr = pred[chambers-1];
         path.push(curr);
@@ -132,7 +147,7 @@ int main() {
             path.push(pred[curr]);
             curr = pred[curr];
         }
-        /*make sure path works
+        /*
         while (!path.empty())
         {
             cout << path.top() << endl;
@@ -140,8 +155,8 @@ int main() {
         }*/
 
 
-        //find min in path
-        int m = 100000;
+        //find min in path, possibly wrong
+        int m = 1000000;
         int s = path.size();
 
         int from = path.top();
@@ -149,19 +164,28 @@ int main() {
         path.pop();
         int to;
         path2.push_back(from);
-        cout << from << " " << to << endl;
+        //first get path
         for(int i=0; i<s-1; i++)
         {
             to = path.top();
             path.pop();
             path2.push_back(to);
-            //cout << n+1 << endl;
-            if (capacity[from][to] < m) m = capacity[from][to];
-            //cout << from << " " << to << " : " << m << endl;
-            //make residual graph
-            capacity[from][to]-=capacity[from][to];//change this to flow
-            capacity[to][from]+=capacity[from][to];
             from = to;
+        }
+
+        //find min
+        for(int i=0; i<path2.size()-1; i++) {
+            from = path2[i];
+            to = path2[i+1];
+            int test_forward = capacity[from][to] - flow[from][to];
+            int test_reverse = flow[to][from];
+            if (test_forward > 0)
+            {
+                m = min(m, test_forward);
+            }
+            else if (test_reverse > 0) {
+                 m = min(m, test_reverse);
+            }
         }
 
         for(int i=0; i<path2.size(); i++)
@@ -170,31 +194,34 @@ int main() {
         }
 
 
-        //update graph with this min in mind
-        from = path2[0];
-        for(int i=1; i<path2.size(); i++)
-        {
-            to = path2[i];
-            capacity[from][to]+=m;
-            capacity[to][from]-=m;
-            from = to;
+        //augment path add min to forward, substract from reverse edges
+        //make residual graph
+        for(int i=0; i<path2.size()-1; i++) {
+            from = path2[i];
+            to = path2[i+1];
+            int test_forward = capacity[from][to] - flow[from][to];
+            int test_reverse = flow[to][from];
+            if (test_forward > 0)
+            {
+                flow[to][from]+= m;
+            }
+            else if (test_reverse > 0) {
+                flow[to][from]-= m;
+            }
         }
 
+        //check flow graph
         for (int i=0; i<chambers;i++)
         {
         for(int j=0; j<chambers; j++)
         {
-            cout << capacity[i][j] << " ";
+            cout << flow[i][j] << " ";
         }
         cout << endl;
 
         }
 
-        //path not found so exit
-        if (visited[chambers-1] == 1)
-        {
-            break;
-        }
+
 
     }
 }
