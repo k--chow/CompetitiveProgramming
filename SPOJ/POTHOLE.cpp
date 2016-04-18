@@ -17,6 +17,9 @@ using namespace std;
 int main() {
     int cases;
     cin >> cases;
+    for(int a=0; a<cases; a++)
+    {
+
     int chambers;
     cin >> chambers;
     int capacity[chambers][chambers];
@@ -49,7 +52,7 @@ int main() {
         }
 
     }
-    //source +1 all 1
+    //source +1 all 1s - problem specific implementation
     for(int i=0; i<chambers;i++)
     {
         if (capacity[0][i] > 0)
@@ -187,12 +190,12 @@ int main() {
                  m = min(m, test_reverse);
             }
         }
-
+        /*
         for(int i=0; i<path2.size(); i++)
         {
             cout << path2[i] << endl;
-        }
-
+        }*/
+        max_flow+=m;
 
         //augment path add min to forward, substract from reverse edges
         //make residual graph
@@ -203,25 +206,30 @@ int main() {
             int test_reverse = flow[to][from];
             if (test_forward > 0)
             {
-                flow[to][from]+= m;
+                flow[from][to]+= m;
             }
             else if (test_reverse > 0) {
                 flow[to][from]-= m;
             }
         }
 
-        //check flow graph
+        //check flow graph, WHY is it not updating?
         for (int i=0; i<chambers;i++)
         {
         for(int j=0; j<chambers; j++)
         {
-            cout << flow[i][j] << " ";
+            //cout << flow[i][j] << " ";
         }
-        cout << endl;
+        //cout << endl;
 
         }
 
 
 
     }
+
+
+    cout << max_flow << endl;
+}
+
 }
