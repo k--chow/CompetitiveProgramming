@@ -67,10 +67,39 @@ class SegmentTree {
 
         //build right node
         build((start_index + end_index)/2 + 1, end_index, (tree_index * 2) + 2);
-    }
+        }
+
+            int query(int query_left, int query_right) {
+                return real_query(0, query_left, query_right);
+            }
+
+
+        int real_query(int index, int query_left, int query_right) {
+       //determine the color of ’node_idx’:
+       //query_left <= left[node_idx] <= right[node_idx] <= query_right
+       if (range[index].first >= query_left && range[index].second <= query_right) {
+              //this means ’node_idx’ is COMPLETELY contained
+              //within the bounds of the query....(GREEN NODE)
+              return tree[index]; // using fact (2)
+       }
+       else if (range[index].first > query_right || range[index].second < query_left) {
+              //this means ‘node_idx’ does not contain anything
+              //within the bounds of the query....(RED NODE)
+              return 0; // using fact (1)
+       }
+       else {
+              //otherwise, this node is partially contained within
+              //the query bounds....(ORANGE NODE)
+              //in this case, we can’t really figure out what to return,
+                //so we just recursively look at our children and have them figure it out
+                return real_query(2*index+1, query_left, query_right) +
+              real_query(2*index+2, query_left, query_right);
+        }
+}
+
     //recursive function to query the segment/fenwick tree sum
     //solutions - save pairs of the index, use left/right for determining
-    void c_sum_query(int i, int j, int index) // a dd to a running sum
+    void c_sum_query(int i, int j, int index) // add to a running sum
     {
 
     	if (index == 0 && sum != 0)
@@ -80,20 +109,23 @@ class SegmentTree {
         //use range and check
         //orange - parts of it in it but parts of it not - continue on
         //traverse again
-
+cout << range[index].first << " " << range[index].second << endl;
         //green - all a part of it, return sum on this
         if (range[index].first >= i && range[index].second <= j)
         {
-            sum += tree[index];
+
+            this->sum += tree[index];
+            cout << "YES" << endl;
             return;
         }
         //red all are NOT a part of this, return 0 on this
-        else if ((range[index].first < i && range[index].second < i) || (range[index].first > i && range[index].second > i))
+        else if ((range[index].first > j) || (range[index].second < i))
         {
             return;
         }
         else //orange node
         {
+
             c_sum_query(i, j, (2 * index) + 1); //left
             c_sum_query(i, j, (2 * index) + 2); //right
         }
@@ -122,6 +154,7 @@ int main()
         cin >> a >> b;
         test.c_sum_query(a, b, 0);
         cout << test.sum << endl;
+        //cout << test.query(a, b) <<endl;
 
     }
 
