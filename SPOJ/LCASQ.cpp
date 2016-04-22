@@ -14,7 +14,7 @@ using namespace std;
 
 //write LCA function to return euler[RMQ(first_occurence[i], first_occurence[j], level)]
 
-void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,  int current, int previous)
+void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,  int current, int previous, int n)
 {
     //get all the neighbors
     for(int i=0; i<graph[current].size(); i++)
@@ -23,8 +23,14 @@ void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,
         if (graph[current][i] != previous)
         {
             euler.push_back(graph[current][i]);
-            DFS(euler, level, graph, graph[current][i], current);
+            DFS(euler, level, graph, graph[current][i], current, n);
+            if (graph[current][i] == n-1)
+            {
+                return;
+            }
             euler.push_back(current); //come back, but not if its the end
+            //cout << current << " " << previous << endl;
+
         }
 
     }
@@ -52,12 +58,13 @@ int main()
     }
 
 
-    vector<int> euler(2*n + 1, 0); //save path of DFS
+    vector<int> euler; //save path of DFS
     vector<int> level(2*n + 1, 0); //save level of path of DFS
 
     //run DFS on graph and save euler and level
     //visited array not needed
-    DFS(euler, level, graph, 0, 0);
+    euler.push_back(0);
+    DFS(euler, level, graph, 0, 0, n);
     for(int i=0; i<euler.size(); i++)
     {
         cout << euler[i] << endl;
@@ -66,7 +73,7 @@ int main()
 
 
     //precompute first_occurence
-    vector<int> first_occurence(n, 0); //save first occurence of nodes
+    vector<int> first_occurence (n, 0); //save first occurence of nodes
 
 
 }
