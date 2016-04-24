@@ -9,27 +9,57 @@
 #include <string.h>
 using namespace std;
 
+//segment tree solely for Range Minimum Queries (RMQ) of levels
+class SegmentTree {
+    vector<int> levels; //backing array
+    vector<int> left; //store left nodes array
+    vector<int> right; //store right nodes array
+    vector<int> tree; //stores index of minimum level
+    int s; //size;
 
+    SegmentTree(vector<int> level)
+    {
+        this->levels = level;
+        this->s = level.size();
+        for(int i=0; i<s*4; i++)
+        {
+            tree.push_back(0);
+            left.push_back(0);
+            right.push_back(0);
+        }
+        //now build
+    }
+
+    void build(int tree_index, int start_index, int end_index) //build the tree
+    {
+        //if start = end, set that tree_index to itself, then break
+        if (left[tree_index] == right[tree_index])
+        {
+            this->tree[tree_index] = levels[start_index];
+            return;
+        }
+        //find smallest level in between the 2 indexes
+
+        //set tree[tree_index] to that value
+
+        //build left node
+
+        //build right node
+    }
+    //return index of smallest level in between the indexes first_occurrence[i] and first_occurence[j]
+    /*
+    int RMQ(int node_i, int node_j)//returns index of smallest level in between nodes i and j
+    {
+
+    }*/
+
+
+};
 //write RMQ function to find smallest level in between indexes
 
 //write LCA function to return euler[RMQ(first_occurence[i], first_occurence[j], level vector, first_occurence vector)]
 bool finish = false; //finish is used to find out when to end the recursive statements
-//return index of smallest level in between the indexes first_occurrence[i] and first_occurence[j]
-int RMQ(int node_i, int node_j, vector<int> level, vector<int> first_occurence)//returns index of smallest level in between nodes i and j
-{
-    int smallest = 1000000;
-    int index = first_occurence[node_i];
-    for(int i=first_occurence[node_i]; i<first_occurence[node_j]; i++)
-    {
-        if (level[i] < smallest)
-        {
-            smallest = level[i];
-            index = i;
-        }
-    }
 
-    return index;
-}
 
 void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,  int current, int previous, int n, int currentLevel)
 {
