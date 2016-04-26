@@ -49,6 +49,7 @@ class SegmentTree {
             return;
         }
 
+        /* O(n^2) time, needs to be O(n);
         int sum = 0;
         //add up all nodes from start to end
         for(int i=start_index; i<end_index+1; i++)
@@ -58,8 +59,8 @@ class SegmentTree {
 
         //set tree[index] to the result
         this->tree[tree_index] = sum;
+        */
 
-        //cout << "Index: " << tree_index << " " << start_index << ":" << end_index << " " << sum << endl;
 
         //build left node
         build(start_index, (start_index + end_index)/2, (tree_index * 2) + 1);
@@ -67,7 +68,12 @@ class SegmentTree {
 
         //build right node
         build((start_index + end_index)/2 + 1, end_index, (tree_index * 2) + 2);
+
+        this->tree[tree_index] = tree[(tree_index*2) + 1] + tree[(tree_index*2) + 2];
         }
+
+
+
 
             int query(int query_left, int query_right) {
                 return real_query(0, query_left, query_right);
@@ -109,13 +115,13 @@ class SegmentTree {
         //use range and check
         //orange - parts of it in it but parts of it not - continue on
         //traverse again
-cout << range[index].first << " " << range[index].second << endl;
+//cout << range[index].first << " " << range[index].second << endl;
         //green - all a part of it, return sum on this
         if (range[index].first >= i && range[index].second <= j)
         {
 
             this->sum += tree[index];
-            cout << "YES" << endl;
+            //cout << "YES" << endl;
             return;
         }
         //red all are NOT a part of this, return 0 on this

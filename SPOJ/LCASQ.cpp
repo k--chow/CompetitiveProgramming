@@ -48,6 +48,8 @@ class SegmentTree {
         //find smallest level in between the 2 indexes
         int smallest = 1000000;
         int index;
+
+        /* O(n^2) running time, causing TLE
         for(int i=start_index; i<end_index+1; i++)
         {
             if (this->levels[i] < smallest)
@@ -58,15 +60,16 @@ class SegmentTree {
         }
 
         //set tree[tree_index] to that value
-        tree[tree_index] = index;
-        //cout << tree[tree_index] << endl;
+        tree[tree_index] = index;*/
+
         //build left node
-        //cout << "Building left " << start_index << " " << (start_index + end_index)/2 << endl;
         build((2*tree_index) + 1, start_index, (start_index + end_index)/2);
 
-        //cout << "Building right " << ((start_index + end_index)/2)+1 << " " << end_index << endl;
         //build right node
         build((2*tree_index) + 2, ((start_index + end_index)/2)+1, end_index);
+        //set tree index to min, build recursively in O(n), not O(n^2)
+        tree[tree_index] = min(tree[(tree_index*2)+1], tree[(tree_index*2)+2]);
+
     }
 
     //query the segment/fenwick tree sum
