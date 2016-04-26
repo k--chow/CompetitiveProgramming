@@ -14,8 +14,8 @@ class SegmentTree {
 
     public:
     vector<int> levels; //backing array
-    vector<int> left; //store left nodes array
-    vector<int> right; //store right nodes array
+    //vector<int> left; //store left nodes array
+    //vector<int> right; //store right nodes array
     vector<int> tree; //stores index of minimum level
     int s; //size;
     int m; //min
@@ -28,8 +28,8 @@ class SegmentTree {
         for(int i=0; i<s*4; i++)
         {
             tree.push_back(0);
-            left.push_back(0);
-            right.push_back(0);
+            //left.push_back(0);
+            //right.push_back(0);
         }
         //now build
         build(0, 0, s-1);
@@ -37,19 +37,20 @@ class SegmentTree {
 
     void build(int tree_index, int start_index, int end_index) //build the tree
     {
-        left[tree_index] = start_index;
-        right[tree_index] = end_index;
+        //left[tree_index] = start_index;
+        //right[tree_index] = end_index;
         //if start = end, set that tree_index to itself, then break
         if (start_index == end_index)
         {
             this->tree[tree_index] = start_index;
             return;
         }
+        /*
         //find smallest level in between the 2 indexes
         int smallest = 1000000;
         int index;
 
-        /* O(n^2) running time, causing TLE
+        O(n^2) running time, causing TLE
         for(int i=start_index; i<end_index+1; i++)
         {
             if (this->levels[i] < smallest)
@@ -64,7 +65,6 @@ class SegmentTree {
 
         //build left node
         build((2*tree_index) + 1, start_index, (start_index + end_index)/2);
-
         //build right node
         build((2*tree_index) + 2, ((start_index + end_index)/2)+1, end_index);
         //set tree index to min, build recursively in O(n), not O(n^2)
@@ -74,8 +74,9 @@ class SegmentTree {
 
     //query the segment/fenwick tree sum
     //solutions - save pairs of the index, use left/right for determining
-    void c_min_query(int i, int j, int index) // add to a running min
+    void c_min_query(int i, int j, int index, int lo, int hi) // add to a running min
     {
+        int mid = (hi+lo)/2; //for knowing left and right indices
 
     	if (index == 0 && this->m != 1000000)//reset min from other queries
     	{
@@ -87,7 +88,7 @@ class SegmentTree {
         //traverse again
 
         //green - all a part of it, math.min this on this
-        if (left[index] >= i && right[index] <= j)
+        if (lo >= i && hi <= j)
         {
             if (this->m == 1000000)
             {
@@ -106,7 +107,7 @@ class SegmentTree {
             return;
         }
         //red all are NOT a part of this, return 0 on this
-        else if ((left[index] > j) || (right[index] < i))
+        else if ((lo > j) || (hi < i))
         {
 
             return;
@@ -114,8 +115,8 @@ class SegmentTree {
         else //orange node
         {
 
-            c_min_query(i, j, (2 * index) + 1); //left
-            c_min_query(i, j, (2 * index) + 2); //right
+            c_min_query(i, j, (2 * index) + 1, lo, mid); //left
+            c_min_query(i, j, (2 * index) + 2, mid+1, hi); //right
         }
 
     }
@@ -126,8 +127,7 @@ class SegmentTree {
 
 
 //write LCA function to return euler[RMQ(first_occurence[i], first_occurence[j], level vector, first_occurence vector)]
-bool finish = false; //finish is used to find out when to end the recursive statements
-
+bool finish = false; //finish is used to find out when to end the recursive statements, without finish even on return the remaining statements get executed
 
 
 void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,  int current, int previous, int n, int currentLevel, vector<int> & first_occurence)
@@ -155,6 +155,7 @@ void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,
                 finish = true;
                 return;
             }
+
             DFS(euler, level, graph, graph[current][i], current, n, currentLevel+1, first_occurence);
 
             if (!finish)
@@ -227,7 +228,7 @@ int main()
         }
         //check if index needs to be reversed, error will occur if first is larger than second
 
-        test.c_min_query(first_occurence[index_i], first_occurence[index_j], 0);
+        test.c_min_query(first_occurence[index_i], first_occurence[index_j], 0, 0, test.s -1);
         cout << euler[test.m] << endl;
     }
 
