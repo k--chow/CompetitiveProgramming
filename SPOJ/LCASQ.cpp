@@ -45,30 +45,23 @@ class SegmentTree {
             this->tree[tree_index] = start_index;
             return;
         }
-        /*
-        //find smallest level in between the 2 indexes
-        int smallest = 1000000;
-        int index;
 
-        O(n^2) running time, causing TLE
-        for(int i=start_index; i<end_index+1; i++)
-        {
-            if (this->levels[i] < smallest)
-            {
-                index = i;
-                smallest = this->levels[i];
-            }
-        }
-
-        //set tree[tree_index] to that value
-        tree[tree_index] = index;*/
 
         //build left node
         build((2*tree_index) + 1, start_index, (start_index + end_index)/2);
         //build right node
         build((2*tree_index) + 2, ((start_index + end_index)/2)+1, end_index);
         //set tree index to min, build recursively in O(n), not O(n^2)
-        tree[tree_index] = min(tree[(tree_index*2)+1], tree[(tree_index*2)+2]);
+        //left child index= tree[(2*tree_index) + 1]
+        //right child =  tree[(2*tree_index) + 2]
+        if (levels[tree[(tree_index*2)+1]] < levels[tree[(tree_index*2)+2]])
+        {
+            tree[tree_index] = tree[(tree_index*2)+1];
+        }
+        else
+        {
+            tree[tree_index] = tree[(tree_index*2)+2];
+        }
 
     }
 
@@ -98,7 +91,7 @@ class SegmentTree {
             {
                 if (levels[tree[index]] < levels[this->m])
                 {
-                    this->m = index;
+                    this->m = tree[index];
                 }
             }
             //cout << "Index: " << tree[index] << " Level " << levels[tree[index]] << endl;
@@ -130,36 +123,39 @@ class SegmentTree {
 bool finish = false; //finish is used to find out when to end the recursive statements, without finish even on return the remaining statements get executed
 
 
-void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,  int current, int previous, int n, int currentLevel, vector<int> & first_occurence)
+
+void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > &  graph,  int current, int previous, int n, int currentLevel, vector<int> & first_occurence)
 {
     //get all the neighbors
-    for(int i=0; i<graph[current].size(); i++)
+    for(int i=0; i< graph.at(current).size(); i++)
     {
         //make sure its not parent(previous)
-        if (graph[current][i] != previous)
+        int neighbor = graph.at(current).at(i);
+        if (neighbor != previous)
         {
 
-            euler.push_back(graph[current][i]);
-            if (first_occurence[graph[current][i]] == -1)
+            euler.push_back(neighbor);
+            if (first_occurence[neighbor] == -1)
             {
-                first_occurence[graph[current][i]] = euler.size()-1 ; // set first_occurence
+                first_occurence[neighbor] = euler.size()-1 ; // set first_occurence
             }
             //cout << "LEVEL: " << currentLevel+1 << endl;
             level.push_back(currentLevel + 1);
 
 
             //cout << "ORIGINAL ADD " << graph[current][i] << endl;
-            if (graph[current][i] == n-1) //find a way to break all recursive statements after this break
+            if (neighbor == n-1) //find a way to break all recursive statements after this break
             {
                 //cout << "BREAK" << endl;
                 finish = true;
                 return;
             }
 
-            DFS(euler, level, graph, graph[current][i], current, n, currentLevel+1, first_occurence);
+
 
             if (!finish)
             {
+                DFS(euler, level, graph, graph[current][i], current, n, currentLevel+1, first_occurence);
                 //cout << "ADDED " << current << endl;
                 euler.push_back(current); //come back, but not if its the end
                 //cout << "LEVELBACK: " << currentLevel << endl;
@@ -174,12 +170,39 @@ void DFS (vector<int> & euler, vector<int> & level, vector< vector<int> > graph,
     //go to the first one
 
 }
+/* josh's dfs
+void dfs(int &cur_node, int &prev_node, int &cur_level, int & euler_counter, vector<int> & euler, vector<int> & level, vector<int> & first_occurence, vector< vector<int> > graph) {
+       //we just came into a node, add it to euler[]
+       euler[euler_counter] = cur_node;
+       //add the level corresponding to this node
+       level[euler_counter] = cur_level;
+       //if first occurrence of this node hasnÕt been assigned,
+       //assign it.
+       if (first_occurence[cur_node] == -1) {
+              first_occurence[cur_node] = euler_counter;
+}
+       //increment euler counter
+       euler_counter++;
+       for(int i=0; i<graph[cur_node].size(); i++)
+       {
+           int neighbor = graph[cur_node][i];
+           //donÕt want to jump back up
+              if (neighbor == prev_node) continue;
+              //go into this node
+              dfs(neighbor, cur_node, cur_level + 1, euler_counter, euler, level, first_occurence, graph);
+              //now we just came out of this node, so we append Ôcur_nodeÕ
+              //to euler[]
+              euler[euler_counter] = cur_node;
+       }
+
+
+ }*/
 
 int main()
 {
     int n;
     cin >> n;
-    vector< vector<int> > graph(n); //safe the graph
+    vector< vector<int> > graph(n); //save the graph
     for(int i = 0; i<n; i++)//store the graph
     {
         int children;
@@ -198,13 +221,17 @@ int main()
     vector<int> euler; //save path of DFS
     vector<int> level; //save level of path of DFS
     vector<int> first_occurence(n, -1); //save first occurence of nodes
-
+    /* joshs dfs
+    int euler_counter = 0;
+    dfs(0, -1, 0, euler_counter, euler, level, first_occurence, graph);
+    */
 
     //run DFS on graph and save euler and level
     //visited array not needed
     euler.push_back(0); //add root to euler array
     level.push_back(0); //add root level to level array
-    first_occurence[0] = 0; // implementation detailð©ó `cU`cUÐy^
+    first_occurence[0] = 0; // implementation detail
+
     DFS(euler, level, graph, 0, 0, n, 0, first_occurence);
 
     SegmentTree test(level); //initialize segment tree
@@ -229,7 +256,7 @@ int main()
         //check if index needs to be reversed, error will occur if first is larger than second
 
         test.c_min_query(first_occurence[index_i], first_occurence[index_j], 0, 0, test.s -1);
-        cout << euler[test.m] << endl;
+        cout << euler[test.m] << " " << test.m << endl;
     }
 
 
