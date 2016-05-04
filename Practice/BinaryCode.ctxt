@@ -1,7 +1,0 @@
-#BlueJ class context
-comment0.params=message
-comment0.target=void\ code(java.lang.String)
-comment0.text=\r\n\ \ \ \ public\ String[]\ decode(String\ message)\r\n\ \ \ \ {\r\n\ \ \ \ \ \ \ \ \r\n\ \ \ \ }\r\n
-comment1.params=args
-comment1.target=void\ main(java.lang.String[])
-numComments=2

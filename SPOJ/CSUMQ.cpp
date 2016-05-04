@@ -70,6 +70,7 @@ class SegmentTree {
         build((start_index + end_index)/2 + 1, end_index, (tree_index * 2) + 2);
 
         this->tree[tree_index] = tree[(tree_index*2) + 1] + tree[(tree_index*2) + 2];
+
         }
 
 

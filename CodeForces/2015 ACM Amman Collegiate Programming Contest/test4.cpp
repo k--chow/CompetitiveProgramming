@@ -16,20 +16,8 @@ using namespace std;
 
 int main()
 {
-    int cases;
-    for(int i=0; i<cases; i++)
-    {
-        int s;
-        cin >> s;
-        vector<int> scores;
-        for(int j=0; j<s; j++)
-        {
-            int score;
-            cin >> score;
-            scores.push_back(score);
-        }
-        sort(scores.begin(), scores.end());
-        int b = 100 - scores[scores.size()-1];
-        cout << b << endl;
-    }
+    int * i;
+    int a = 10;
+    i = &a;
+    cout << i << endl;
 }
