@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void solve(vector< vector<int> > & DP, int needed, int i, int j, int newHire, int sever, int current, int ending)
+void solve(vector< vector<long long> > & DP, int needed, int i, int j, int newHire, int sever, int current, int ending)
 {
 
     //needed case
@@ -19,25 +19,25 @@ void solve(vector< vector<int> > & DP, int needed, int i, int j, int newHire, in
     {
     int mini = 100000;
     //find min of (row above + getting to current state)
-            for(int b=0; b<30; b++)
+            for(int c=0; c<=ending; c++)
             {
-                if (DP[i-1][b] != -1 )
+                if (DP[i-1][c] != -1 )
                 {
                     int above; //always adds up to the index j
-                    int index = b; //current j column
-                    if (index < needed)//keep current employees + add new ones
+
+                    if (c < needed)//keep current employees + add new ones
                     {
-                        above = (needed-index)*newHire + (index*current);
+                        above = (needed-c)*newHire + (c*current);
                     }
-                    else if (index == needed)
+                    else if (c == needed)
                     {
-                        above = index*current;
+                        above = c*current;
                     }
                     else //index > needed
                     {
-                        above = (needed*current) + ((index - needed)*sever);
+                        above = (needed*current) + ((c - needed)*sever);
                     }
-                    int total = DP[i-1][b] + above;
+                    int total = DP[i-1][c] + above;
                     //cout << DP[i-1][b] << " " << above << endl;
                     if (total < mini)
                     {
@@ -53,53 +53,49 @@ void solve(vector< vector<int> > & DP, int needed, int i, int j, int newHire, in
     //loop the other cases
     else if (j <= ending && j > needed)
     {
-
-    for(int c = j; c<=ending; c++)
+    int mini = 100000;
+    for(int c = j; c<= ending; c++)
     {
-            int mini = 100000;
-            //find min of (row above and across+ getting to current state) from above
-            for(int b=c; b<=ending; b++)
-            {
-                if (DP[i-1][b] != -1 )
-                {
+        //find min of (row above and across + getting to current state) from above
+        if (DP[i-1][c] != -1 )
+        {
                     int above;
-
+                    /*
                     if (b < c)
                     {
                         above = (c-b)*newHire + (b*current);
-                    }
-                    else if (b == c)
+                    }*/
+                    if (j == c)
                     {
-                        above = b*current;
+                        above = j * current;
                         //cout << "above: " << above;
                     }
-                    else //b > c
+                    else //c > j
                     {
-                        above = (b * current) + (b - c) * sever; //what about other indexes?
+                        above = (j * current) + (c - j) * sever; //what about other indexes?
                     }
-                    int total = (DP[i-1][b] + above);
+                    int total = (DP[i-1][c] + above);
                     if (total < mini)
                     {
                         mini = total;
                     }
 
-                    //cout << "above: " << (needed*current) + (index - needed)*sever << " " << b <<endl;
-
                 }
-            }
-            DP[i][c] = mini;
-
 
 
     }
+
+    DP[i][j] = mini;
     }
 }
 
 int main()
 {
+    int counter = 1;
     while (1)
     {
-        vector< vector<int> > DP(30);
+
+        vector< vector<long long> > DP(30);
         for(int i=0; i<30; i++)
         {
             for(int j=0; j<30; j++)
@@ -137,8 +133,9 @@ int main()
             }
         }
 
-        //cout << DP[months-1][n[months-1]];
-
+        cout << "Case " << counter << ", cost = $" << DP[months-1][n[months-1]] << endl;
+        counter++;
+        /*
         for(int i=0; i<months; i++)
         {
             //now it begins, now it ends
@@ -148,7 +145,7 @@ int main()
 
             }
             cout << endl;
-        }
+        }*/
 
     }
 
