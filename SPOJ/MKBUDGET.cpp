@@ -9,7 +9,10 @@
 #include <string.h>
 #include <set>
 
+
 using namespace std;
+#define INF 99999999
+#define MAX 300
 
 void solve(vector< vector<long long> > & DP, int needed, int i, int j, int newHire, int sever, int current, int ending)
 {
@@ -17,7 +20,7 @@ void solve(vector< vector<long long> > & DP, int needed, int i, int j, int newHi
     //needed case
     if (j == needed)
     {
-    int mini = 100000;
+    int mini = INF;
     //find min of (row above + getting to current state)
             for(int c=0; c<=ending; c++)
             {
@@ -53,7 +56,7 @@ void solve(vector< vector<long long> > & DP, int needed, int i, int j, int newHi
     //loop the other cases
     else if (j <= ending && j > needed)
     {
-    int mini = 100000;
+    int mini = INF;
     for(int c = j; c<= ending; c++)
     {
         //find min of (row above and across + getting to current state) from above
@@ -95,10 +98,10 @@ int main()
     while (1)
     {
 
-        vector< vector<long long> > DP(30);
-        for(int i=0; i<30; i++)
+        vector< vector<long long> > DP(MAX);
+        for(int i=0; i<MAX; i++)
         {
-            for(int j=0; j<30; j++)
+            for(int j=0; j<25; j++)
             {
                 DP[i].push_back(-1);
             }
@@ -121,31 +124,36 @@ int main()
         {
             int ending;
             //first find index of where to end (from previous)
-            for(int a=0; a<30; a++)
+            for(int a=0; a<MAX; a++)
             {
                 if (DP[i-1][a] != -1) ending = a;
             }
             //now it begins, now it ends
-            for(int j=n[i]; j<30; j++) //j starts at needed
+            for(int j=n[i]; j<MAX; j++) //j starts at needed
             {
                     solve(DP, n[i], i, j, newHire, sever, current, ending);
 
             }
         }
 
-        cout << "Case " << counter << ", cost = $" << DP[months-1][n[months-1]] << endl;
-        counter++;
-        /*
-        for(int i=0; i<months; i++)
+        int ans = INF;
+        for(int i=0; i<MAX; i++)
         {
-            //now it begins, now it ends
-            for(int j=0; j<30; j++) //j starts at needed
+            if (DP[months-1][i] != -1)
             {
-                    cout << DP[i][j] << " ";
+                if (DP[months-1][i] < ans)
+                {
+                    ans = DP[months-1][i];
+                }
+
 
             }
-            cout << endl;
-        }*/
+
+        }
+
+        cout << "Case " << counter << ", cost = $" << ans << endl;
+        counter++;
+
 
     }
 

@@ -13,22 +13,8 @@ using namespace std;
 
 int solve(vector< vector<pair<int, int> > > & DP, int weight, int fun, int i, int j, int & currentWeight) // weight of item, fun of item, current j weight
 {
-    if (i == 0)
-    {
 
-        if (weight <= j)
-        {
-
-            currentWeight = weight;
-            return fun; //take, but only once
-        }
-        else
-        {
-            currentWeight = 0;
-            return 0;
-        }
-    }
-    else if (weight > j)
+    if (weight > j)
     {
         currentWeight = DP[i-1][j].second;
         return DP[i-1][j].first;
@@ -65,6 +51,8 @@ int main()
         }
         vector<int> weights;
         vector<int> fun;
+        weights.push_back(0);
+        fun.push_back(0);
         for(int i=0; i<items; i++)
         {
             int a, b;
@@ -75,29 +63,29 @@ int main()
 
         }
 
-        vector< vector<pair<int, int> > > DP(items);
-        for(int i=0; i<items; i++)
+        vector< vector<pair<int, int> > > DP(items+1);
+        for(int i=0; i<=items; i++)
         {
-            for(int j=0; j<total; j++)
+            for(int j=0; j<=total; j++)
             {
                 DP[i].push_back(make_pair(0, 0));
             }
         }
 
 
-        for(int i=0; i<items; i++)//items
+        for(int i=1; i<=items; i++)//items
         {
-            for(int j=0; j<total; j++)//weight
+            for(int j=0; j<=total; j++)//weight
             {
                 int currentWeight = 0;
                 DP[i][j].first = solve(DP, weights[i], fun[i], i, j, currentWeight);
                 DP[i][j].second = currentWeight;
-                cout << DP[i][j].first << "," << DP[i][j].second << " " ;
+                //cout << DP[i][j].first << "," << DP[i][j].second << " " ;
             }
-            cout << endl;
+            //cout << endl;
         }
 
-        cout << DP[items-1][total-1].second << " " << DP[items-1][total-1].first << endl;
+        cout << DP[items][total].second << " " << DP[items][total].first << endl;
 
 
 
