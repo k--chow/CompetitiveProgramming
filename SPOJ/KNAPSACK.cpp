@@ -21,7 +21,10 @@ int main()
     cin >> s >> N;
     vector<int> values;
     vector<int> weights;
-    vii DP(s+1);
+    vii DP(N+1);
+
+    values.push_back(0);
+    weights.push_back(0);
 
     for (int i=0; i<N; i++)
     {
@@ -31,34 +34,35 @@ int main()
         weights.push_back(w);
     }
 
-    for(int i=0; i<N; i++)
+    for(int i=0; i<N+1; i++)
     {
         for(int j=0; j<s+1; j++)
         {
-            DP[i][j] = 0;
+            DP[i].push_back(0);
         }
     }
 
 
-    for(int i=1; i<N; i++)
+    for(int i=1; i<N+1; i++)
     {
         for(int j=1; j<s+1; j++)
         {
             if (weights[i] <= j)
             {
-                DP[i-1][j] = max(DP[i-1][j], DP[i-1][j-weights[i]] + values[i]);
+                DP[i][j] = max(DP[i-1][j], DP[i][j-weights[i]] + values[i]);
             }
-            //cout << DP[j] << " ";
 
+            else
+            {
+                DP[i][j] = DP[i-1][j];
+            }
+            cout << DP[i][j] << " ";
         }
-        //cout << endl;
+        cout << endl;
+
     }
-    /*
-    for(int j=0; j<s+1; j++)
-    {
-        cout << DP[j] << " ";
-    }*/
-    cout << DP[N-1][s-1] << endl;
+
+    cout << DP[N][s] << endl;
 
 }
 
