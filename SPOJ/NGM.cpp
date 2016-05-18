@@ -7,19 +7,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sstream>
-#include <unordered_map>
+#include <set>
+#include <iomanip>
 using namespace std;
 
 int main()
 {
-    long double n;
+    int n;
     cin >> n;
-    if (fmod(log2l(n), 1) == 0 || n == 0) {
-        cout << "TAK" <<endl;
-    }
-    else
+    if (n % 10 != 0)
     {
-        cout << "NIE" <<endl;
+        cout << 1 << endl;
+        cout << n % 10 << endl;
+
+    }
+    if (n % 10 == 0)
+    {
+        cout << 2 << endl;
     }
 }
