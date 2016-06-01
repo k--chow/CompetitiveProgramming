@@ -9,13 +9,12 @@
 #include <string.h>
 using namespace std;
 
-void dfs(vector< vector<char> >& graph, bool & found, char start, int a1, int a2, int b1, int b2, int r, int c)
+void dfs(vector< vector<char> >& graph, bool & found, char start, int a1, int a2, int b1, int b2, vector< vector<bool> >&visited, int r, int c)
 {
-    //cout << a1 << " " << a2 << " " << start<< endl;
     if (a1 == b1 && a2 == b2)
     {
         found = true;
-        return;
+        //cout << "YAY" << endl;
 
     }
     else
@@ -25,44 +24,52 @@ void dfs(vector< vector<char> >& graph, bool & found, char start, int a1, int a2
     if (a1 != 0)
 
     {
-        if (graph[a1-1][a2] == start)//not previous
+        if (!visited[a1-1][a2] && graph[a1-1][a2] == start)//not previous
         {
             //dfs and set previous
-            graph[a1-1][a2]++;
-            dfs(graph, found, start, a1-1, a2, b1, b2, r, c);
+            visited[a1-1][a2] = true;
+            dfs(graph, found, start, a1-1, a2, b1, b2, visited, r, c);
 
         }
     }
     //down
     if (a1 != r-1 )
     {
-        if (graph[a1+1][a2] == start)
+        if (!visited[a1+1][a2] && graph[a1+1][a2] == start)
         {
-            graph[a1+1][a2]++;
-            dfs(graph, found, start, a1+1, a2, b1, b2, r, c);
+            visited[a1+1][a2] = true;
+            dfs(graph, found, start, a1+1, a2, b1, b2, visited, r, c);
         }
     }
 
     //left
     if (a2 != 0)
     {
-        if (graph[a1][a2-1] == start)
+        if (!visited[a1][a2-1] && graph[a1][a2-1] == start)
         {
-            graph[a1][a2-1]++;
-            dfs(graph, found, start, a1, a2-1, b1, b2, r, c);
+            visited[a1][a2-1] = true;
+            dfs(graph, found, start, a1, a2-1, b1, b2, visited, r, c);
         }
     }
     //right
     if (a2 != c-1 )
     {
-
+        if (graph[a1][a2+1])
+        {
             if (graph[a1][a2+1] == start)
             {
-            graph[a1][a2+1]++;
-            dfs(graph, found, start, a1, a2+1, b1, b2, r, c);
+            visited[a1][a2+1] = true;
+            dfs(graph, found, start, a1, a2+1, b1, b2, visited, r, c);
             }
-
-
+            else
+            {
+                //cout << "not start" << endl;
+            }
+        }
+        else
+        {
+            //cout << "is previous" << endl;
+        }
     }
 }
 }
@@ -70,12 +77,20 @@ int main()
 {
     //save graph
 
+
     //start at given node, dfs set visited, if at given place break, else nah
     int r, c;
     cin >> r >> c;
     vector< vector<char> > graph(r);
-
     string a;
+    vector< vector<bool> > visited2(r);
+        for(int a=0; a<r; a++)
+        {
+            for(int b=0; b<c; b++)
+            {
+                visited2[a].push_back(false);
+            }
+        }
     for(int i=0; i<r; i++)
     {
         cin >> a;
@@ -86,7 +101,7 @@ int main()
         }
         //cout << endl;
     }
-    vector< vector<char> > graph2 = graph;
+
     int cases;
     cin >> cases;
     for(int i=0; i<cases; i++)
@@ -98,22 +113,9 @@ int main()
         //no need visited, just previous
         char start = graph[a1-1][a2-1];
         bool found = false;
+        vector< vector<bool> > visited = visited2;
 
-
-        dfs(graph, found, start, a1-1, a2-1, b1-1, b2-1, r, c);
-        /*
-        cout << "new" << endl;
-        for(int t=0; t<r; t++)
-        {
-
-            for(int y=0; y<c; y++)
-            {
-                //graph[i].push_back(a[j]);
-                cout << graph2[t][y] << " ";
-            }
-            cout << endl;
-        }*/
-        graph = graph2;
+        dfs(graph, found, start, a1-1, a2-1, b1-1, b2-1, visited, r, c);
 
         //if found
         if (found && start == '1')
@@ -127,7 +129,6 @@ int main()
         else
         {
             cout << "neither" << endl;
-            //cout << found << " s " << start << endl;
         }
         //cout << start << endl;
     }
