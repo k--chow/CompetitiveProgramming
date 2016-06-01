@@ -16,19 +16,17 @@ int main()
     for(int a=0; a<cases; a++)
     {
         string x, z;
-        int ans;
+        //int ans;
         cin >> x >> z;
-        ans = x.length();
-        if (z.length() > ans) ans = z.length();
         x = " " + x;
         z = " " + z;
-        //LCS
-        vector< vector<int> > LCS(x.size());
+        //Wagner-Fischer
+        vector< vector<int> > WF(x.size());
         for(int i=0; i<x.length(); i++)
         {
             for(int j=0; j<z.length(); j++)
             {
-                LCS[i].push_back(0);
+                WF[i].push_back(0);
             }
         }
 
@@ -43,36 +41,38 @@ int main()
                 //cout << two << endl;
                 char one1 = one[one.size()-1];
                 char two2 = two[two.size()-1];
-                if (i == 0 || j == 0) continue;
+                if (i == 0 || j == 0) {
+                    WF[i][j] = max(i, j);
+                }
+                else if (one1 == two2)
+                {
+                    //if (i == 1 && j == 1) cout << one1 << " " << two2 << endl;
+                    WF[i][j] = WF[i-1][j-1];
+                }
+                else {
+                    //if (i == 1 && j == 1) cout << "AY" << endl;
+                    WF[i][j] = min(min(WF[i][j-1]+1, WF[i-1][j]+1), WF[i-1][j-1]+1);
+                }
 
-                if (one1 == two2) {
-                    LCS[i][j] = LCS[i-1][j-1] +1;
-                    //i++;
-                    //LCS[i][j] = max(max(LCS[i][j-1], LCS[i-1][j]), LCS[i][j]);
-                    //break;
-                    //cout << one1 << " equals " << two2 << endl;
-
-                 }
 
 
-                //max
-                LCS[i][j] = max(max(LCS[i][j-1], LCS[i-1][j]), LCS[i][j]);
 
 
 
 
             }
         }
-
+        /*
         for(int i=0; i<x.length(); i++)
         {
             for(int j=0; j<z.length(); j++)
             {
-                cout << LCS[i][j] << " ";
+                cout << WF[i][j] << " ";
             }
             cout << endl;
-        }
-        ans -= LCS[x.length()-1][z.length()-1];
+        }*/
+
+        int ans = WF[x.length()-1][z.length()-1];
         cout << ans << endl;
 
 
