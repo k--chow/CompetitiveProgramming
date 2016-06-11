@@ -20,6 +20,7 @@ int main()
         string a;
         cin >> a;
         memset(arr, 0, sizeof(int)*8);
+
         for(int j=0; j<38; j++)
         {
             string inQ = a.substr(j, 3);
