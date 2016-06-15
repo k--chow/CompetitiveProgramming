@@ -10,31 +10,38 @@
 #include <sstream>
 #include <unordered_map>
 using namespace std;
+int node;
+int maximum;
+//dfs from anywhere, find longest path, save node
+//dfs from node
 
-void modifiedDFS(vector< vector<int> > & list, int & maximum, int n, int & current, vector<int> &visited)
+void modifiedDFS(vector< vector<int> > & list, int n, int current, vector<int> &visited)
 {
     current+=1;
     visited[n] = 1;
+
+    if (current > maximum)
+    {
+        node = n;
+        //cout << "New node: " << n << endl;
+
+        maximum = current;
+        //cout << "New Max: " << current << endl;
+    }
+
+
     for(int i=0; i<list[n].size(); i++)
     {
         if (visited[list[n][i]] == 0) {
-            modifiedDFS(list, maximum, list[n][i], current,  visited);
+
+            modifiedDFS(list, list[n][i], current,  visited);
         }
 
     }
 
-    if (current > maximum)
-    {
-        maximum = current;
-    }
 
+    //current = -1;
 
-    current = -1;
-    for(int j=0; j<visited.size(); j++) {
-        //cout << visited[j] << " ";
-        visited[j] = 0;
-    }
-    cout << endl;
 }
 
 int main()
@@ -58,10 +65,16 @@ int main()
     {
 
 
-    int maximum = -1;
-    int current= -1;
-    modifiedDFS(list, maximum, 0, current, visited);
+
+    int current= -1;//number of steps
+    //int n = 0;
+    modifiedDFS(list, 0, current, visited);
     //modifiedDFS(list, maximum, N-1, current, visited);
+    for(int j=0; j<visited.size(); j++) {
+        //cout << visited[j] << " ";
+        visited[j] = 0;
+    }
+    modifiedDFS(list, node, current, visited);
 
 
     cout << maximum << endl;
