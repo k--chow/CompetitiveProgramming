@@ -113,5 +113,7 @@ int main()
         cin >> a >> b;
         cout << test.query(a, b, 0) << endl;
     }
-
 }
+
+//it can be any subarray between a and b
+//a sum max

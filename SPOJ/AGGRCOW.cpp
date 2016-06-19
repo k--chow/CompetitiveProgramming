@@ -43,6 +43,18 @@ int main()
             cout << distArray[j-1].first << " " << distArray[j-1].second << endl;
         }
 
+        //C - N times
+        int times = stalls - cows;
+        for(int j=0; j<times; j++)
+        {
+            //remove dist, append to next(if not last)
+            distArray[1].distArray[0].second
+
+            //sort
+        }
+
+        //first element
+
 
         /*
         //vector removal method

@@ -9,7 +9,7 @@
 using namespace std;
 int arr[200001];
 int arr2[200001];
-int cnt;
+long long cnt;
 
 void m(int left, int mid, int right)
 {

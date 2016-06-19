@@ -9,9 +9,9 @@ int main()//use set
     int cases;
     cin >> cases;
     //set<string> setty;
-    int a1, a2, a3;
+    int a1=0, a2=0, a3=0;
     //map<string>::iterator it;
-    int cnt;
+    int cnt=0;
     for(int i=0; i<cases; i++)
     {
         string p;
@@ -41,16 +41,18 @@ int main()//use set
         }
 
     }
-
+    //cout << cnt << endl;
     cnt = a3;
+    //cout << cnt << endl;
     cnt += a2/2;
+    //cout << cnt << endl;
     int halves = a2 % 2;
     if (halves > 0)
     {
         cnt++;
         a1-=2;
     }
-
+    //cout << cnt << endl;
     a1 = a1 - a3;
 
 
