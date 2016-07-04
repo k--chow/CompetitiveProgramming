@@ -12,6 +12,15 @@
 
 using namespace std;
 
+struct Compare
+{
+	bool operator()(long long & a, long long & b)
+	{
+		return a > b;
+	}
+};
+
+
 int main()
 {
 	while (1)
@@ -19,21 +28,33 @@ int main()
 		int n;
 		cin >> n;
 		if (n == 0) break;
-		vector<int> stuff;
+		priority_queue<long long, vector<long long>, Compare> pq;
 		for(int i=0; i<n; i++)
 		{
 			int m;
 			cin >> m;
-			stuff.push_back(m);
+			pq.push(m);
 		}
-		long long sum = 0;
-		//sort(stuff.begin(), stuff.end());
-		for(int i=0; i<n; i++)
-		{
-			cout << sum << endl;
-			sum += (sum + stuff[i]);
 
+		long long sum = 0;
+		while (!pq.empty())
+		{
+			long long a, b;
+			a = pq.top();
+			pq.pop();
+			b = pq.top();
+			pq.pop();
+			//add to sum
+			long long minisum = a + b;
+			sum += minisum;
+			//cout << minisum << endl;
+			//if not empty put it back in
+			if (!pq.empty())
+			{
+				pq.push(minisum);
+			}
 		}
+		
 		cout << sum << endl;
 	}
 }
