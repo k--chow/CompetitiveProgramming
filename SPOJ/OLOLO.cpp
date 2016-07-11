@@ -13,32 +13,16 @@ using namespace std;
 
 int main()
 {
+    std::ios::sync_with_stdio(false);
+    cin.tie(0);
     int n;
     cin >> n;
-    unordered_map<int,  setty;
-    //setty.insert(5);
-    unordered_map::iterator it;
+    int a = 0;
     for(int i=0; i<n; i++)
     {
-        int n1;
-        cin >> n1;
-        //if found, erase
-        it = setty.find(n1);
-        if (it != setty.end())
-        {
-            setty.erase(it);
-        }
-        //if not, insert
-        else
-        {
-            setty.insert(n1);
-        }
-
+        int b;
+        cin >> b;
+        a = a ^ b;
     }
-
-    //print out only element in set
-    for(it = setty.begin(); it!=setty.end(); it++)
-    {
-        cout << *it << endl;
-    }
+    cout << a << endl;
 }
