@@ -17,13 +17,6 @@ long long money[300000];
 int goal;
 int N;
 
-//if currentMoney[currentChoice-1] + money[currentChoice] > goal - return 0;
-//if currentChoice == N return;
-//if currentMoney[currentChoice-1] + money[currentChoice] - return self
-//currentMoney[] 
-
-//4 5 1 0 3 1
-
 int main()
 {
 
@@ -38,14 +31,17 @@ int main()
     //cout << buy(0)<< endl;
     long long ans = 0;
     long long current = 0;
+    int j = 0;
     for(int i=0; i<N; i++)
     {
         current += money[i];
-        if (current > goal)
+        while (current > goal)
         {
-            ans = max(ans, current -= money[i]);
-            current = 0;
+            current -= money[j];
+            j++;
         }
+        ans = max(current, ans);
+
     }
 
     cout << ans << endl;
