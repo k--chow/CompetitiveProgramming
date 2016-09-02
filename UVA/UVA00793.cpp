@@ -69,7 +69,7 @@ int main()
 		getline(cin, line);
 		if (!isdigit(line[2]))
 		{
-			cout << "nah" << endl;
+			
 		}
 	}
 	

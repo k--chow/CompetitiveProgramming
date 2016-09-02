@@ -10,16 +10,20 @@
 #include <string.h>
 #include <unordered_map>
 using namespace std;
-int solutionCount;
+int solutionCount, n;
+vector<int> placed;
 
 bool place(int r, int c)
 {
-	//if r == 8 
+	//check row
+	//check column
+	//check diagonal 
 }
 
 void recurse(int r)
 {
-	for(int c=0; c<8; c++)
+	//if r == 8, solutionCount++;
+	for(int c=0; c<n; c++)
 	{
 		//try to place
 		//if possible, recurse again
@@ -30,6 +34,12 @@ void recurse(int r)
 int main()
 {
 	//recursive backtracking solution count
+	int n;
+	cin >> n;
+	for(int i=0; i<n; i++)
+	{
+		placed.push_back(-1);
+	}
 	solutionCount = 0;
 
 }
