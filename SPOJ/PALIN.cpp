@@ -45,7 +45,7 @@ string stringAddition(string a)
             a[i] = '0';
             if (i== 0)
             {
-                //append
+                //append to string
                 a = "1" + a;
             }
         }
@@ -57,7 +57,6 @@ string stringAddition(string a)
 
 
     }
-    //cout << a << endl;
     return a;
 }
 
@@ -78,10 +77,7 @@ bool isPalindrome(string a)
         c = a.substr(a.length()/2 +1, a.length()/2);
 
     }
-    //cout << b << endl;
-    //cout << c << endl;
     string d = reverseString(c);
-    //cout << d << endl;
     if (b == d)
     {
         //cout << "true" << endl;
@@ -121,9 +117,6 @@ string closestPalin(string &a)
     if (stringCompare(rev, c)) //reverse b is greater than c
     {
         ans = b + mid + rev;
-        //cout << b;
-        //cout << mid;
-        //cout << rev;
     }
     else //reverse b is smaller than c
     {
@@ -149,22 +142,19 @@ string closestPalin(string &a)
     return ans;
 }
 
-
-
-
 int main()
 {
     vector<string> ans;
-    int c;
-    cin >> c;
+    //int c;
+    //cin >> c;
     for(int i=0; i<c; i++)
     {
         string k;
         cin >> k;
+        if (k == '0') break;
         ans.push_back(closestPalin(k));
 
     }
-
     for(int i=0; i<ans.size(); i++)
     {
         cout << ans.at(i);
