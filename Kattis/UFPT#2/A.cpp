@@ -11,20 +11,33 @@
 using namespace std;
 int s;
 vector<int> arr;
-int ans = 2147483647;
+unordered_map<int, int> dp;
+int f;
 void backtrack(int i, bool g, int currentSum)
 {
+
     //cout << "called " << i  << endl;
     //check if all reached
-    if (i == ((1 << (s))-1)) {
-        //cout << "ayy" << endl;
-        if (currentSum < ans) {
-            ans = currentSum;
+    if (i == f)
+    {
+        if (dp.count(f))
+        {
+            int value = dp[f];
+            dp[f] = min(value, currentSum);
+        } else {
+            dp[f] = currentSum;
         }
+        return;
+    }
+    if (dp.count(i) && currentSum > dp[i]) {
+        return; 
+    } else {
+        dp[i] = currentSum;
     }
     //if gate
     if (g) {
         //pick one to go back
+
         int mini = 2147483647;
         int index = 0;
         for(int j=0; j<s; j++)
@@ -39,6 +52,7 @@ void backtrack(int i, bool g, int currentSum)
             }
         }
         backtrack(i - (1 << index), false, currentSum + mini);
+
     }
     //if not gate
     else {
@@ -60,11 +74,15 @@ void backtrack(int i, bool g, int currentSum)
 int main()
 {
     cin >> s;
+    f = (1 << (s))-1;
     for(int i=0; i<s; i++)
     {
         int p; cin >> p;
         arr.push_back(p);
     }
     backtrack(0, false, 0);
-    cout << ans << endl;
+    for(int i = 0; i <=f; i++)
+    {
+        cout << dp[i] <<endl;
+    }
 }

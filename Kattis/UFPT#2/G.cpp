@@ -10,11 +10,11 @@
 #include <unordered_map>
 using namespace std;
 
-int answ = 2147483647;
 string ans = "";
 
-string shiftString(string s, int i)
+string shiftString(string temp, int i)
 {
+    string s = temp;
     if (s[i] == '*'){
         s[i] = '.';
     }
@@ -54,23 +54,15 @@ string shiftString(string s, int i)
     }
     return s;
 }
-void backtrack(string current, int c, unordered_map<string, bool>& exist)
+void backtrack(string current, int c, unordered_map<string, int>& exist)
 {
-    //cout << "current: " << current << endl;
-    //check if ans
-    if (current == ans) {
-        cout << "yes" << endl;
-        if ( c < answ) {
-            answ = c;
-        }
-        return;
-    }
     //check if inside, break if so
-    if (exist.count(current)) {
+    if (exist.count(current) && c >= exist[current]) {
         return;
+    } else {
+        //otherwise store current
+        exist[current] = c;
     }
-    //otherwise store current
-    exist[current] = true;
 
     //for loop  get it
     for(int i=0; i<9; i++)
@@ -84,22 +76,17 @@ void backtrack(string current, int c, unordered_map<string, bool>& exist)
 int main()
 {
     int cases; cin >> cases;
+    unordered_map<string, int> exist;
+    string current = ".........";
+    backtrack(current, 0, exist);
     for(int i=0; i<cases; i++)
     {
-        answ = 2147483647;
         ans = "";
         for(int j=0; j<9; j++)
         {
             char c; cin >> c;
             ans += c;
         }
-        unordered_map<string, bool> exist;
-        //exist[ans] = true;
-        string current = ".........";
-        //exist[current] = true;
-        //cout << "ans: " << ans << endl;
-        backtrack(current, 0, exist);
-        cout << answ << endl;
-        //cout << "ans: " << ans << endl;
+        cout << exist[ans] << endl;
     }
 }
