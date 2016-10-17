@@ -8,10 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unordered_map>
+#include <map>
 using namespace std;
 int s;
 vector<int> arr;
-unordered_map<int, int> dp;
+map<pair <int, bool>, int> dp;
 int f;
 void backtrack(int i, bool g, int currentSum)
 {
@@ -20,19 +21,19 @@ void backtrack(int i, bool g, int currentSum)
     //check if all reached
     if (i == f)
     {
-        if (dp.count(f))
+        if (dp.count(make_pair(f, g)))
         {
-            int value = dp[f];
-            dp[f] = min(value, currentSum);
+            int value = dp[make_pair(f, g)];
+            dp[make_pair(f, g)] = min(value, currentSum);
         } else {
-            dp[f] = currentSum;
+            dp[make_pair(f, g)] = currentSum;
         }
         return;
     }
-    if (dp.count(i) && currentSum > dp[i]) {
-        return; 
+    if (dp.count(make_pair(i, g)) && currentSum > dp[make_pair(i, g)]) {
+        return;
     } else {
-        dp[i] = currentSum;
+        dp[make_pair(i, g)] = currentSum;
     }
     //if gate
     if (g) {
@@ -80,9 +81,15 @@ int main()
         int p; cin >> p;
         arr.push_back(p);
     }
+    clock_t t1, t2;
+    t1 = clock();
     backtrack(0, false, 0);
+    /*
     for(int i = 0; i <=f; i++)
     {
-        cout << dp[i] <<endl;
-    }
+        cout << dp[make_pair(i, 1)] <<endl;
+    }*/
+    cout << dp[make_pair(f, 1)] <<endl;
+    t2 = clock();
+    cout << ((float)t2 - (float)t1)/CLOCKS_PER_SEC << endl;
 }
